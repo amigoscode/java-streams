@@ -1,10 +1,8 @@
 package com.amigoscode.examples;
 
-import com.amigoscode.beans.Car;
 import com.amigoscode.mockdata.MockData;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -14,14 +12,9 @@ class FilteringTest {
     @Test
     void get_all_yellow_cars_under_20k() throws Exception {
         var cars = MockData.getCars();
+        var filtering = new Filtering(cars);
 
-        Predicate<Car> price = car -> car.getPrice() < 20_000.00;
-        Predicate<Car> color = car -> car.getColor().equals("Yellow");
-
-        var carsUnder20k = cars.stream()
-                .filter(price)
-                .filter(color)
-                .toList();
+        var carsUnder20k = filtering.getYellowCarsUnder20k();
 
         assertThat(carsUnder20k.size()).isEqualTo(9);
         carsUnder20k.forEach(car ->
@@ -30,7 +23,7 @@ class FilteringTest {
 
     @Test
     void dropWhile() throws Exception {
-        System.out.println("using filter");
+        System.out.println("using filtering");
         Stream.of(2, 4, 6, 8, 9, 10, 12).filter(n -> n % 2 == 0)
                 .forEach(n -> System.out.print(n + " "));
         System.out.println();
@@ -39,8 +32,8 @@ class FilteringTest {
 
     @Test
     void takeWhile() throws Exception {
-        // using filter
-        System.out.println("using filter");
+        // using filtering
+        System.out.println("using filtering");
         Stream.of(2, 4, 6, 8, 9, 10, 12).filter(n -> n % 2 == 0)
                 .forEach(n -> System.out.print(n + " "));
 
